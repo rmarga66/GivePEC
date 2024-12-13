@@ -28,6 +28,10 @@ def envoyer_email(destinataire, sujet, message):
 
 # Interface principale de l'application
 st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layout="centered")
+
+# Ajout du logo
+st.image("votre_logo.png", use_column_width=True)
+
 st.title("Prise en Charge d'un Patient")
 st.markdown("## Interface de demande de PEC")
 
@@ -49,8 +53,8 @@ if st.button("Envoyer la demande de PEC"):
         st.error("Veuillez remplir tous les champs obligatoires.")
     else:
         sujet = f"DEMANDE de PEC du DR {docteur_nom}"
-        validation_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été validée.')}"
-        refusal_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été refusée.')}"
+        validation_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été validée.')})"
+        refusal_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été refusée.')})"
         message = f"""
         <h3>Nouvelle demande de PEC</h3>
         <p><strong>Docteur :</strong> {docteur_nom} {docteur_prenom}</p>
@@ -62,8 +66,8 @@ if st.button("Envoyer la demande de PEC"):
         <p><strong>Traitement :</strong> {patient_traitement}</p>
         <p><strong>Autres Informations :</strong> {patient_autres}</p>
         <hr>
-        <p><a href='{validation_link}'>Valider la PEC</a></p>
-        <p><a href='{refusal_link}'>Refuser la PEC</a></p>
+        <p><a href='{validation_link}' style='color: white; background-color: #007BFF; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Valider la PEC</a></p>
+        <p><a href='{refusal_link}' style='color: white; background-color: #FF5733; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Refuser la PEC</a></p>
         """
         envoyer_email("romain.margalet@bastide-medical.fr", sujet, message)
 
@@ -72,8 +76,13 @@ def add_custom_css():
     st.markdown(
         """
         <style>
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
         .stButton>button {
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -83,9 +92,28 @@ def add_custom_css():
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            border-radius: 5px;
         }
         .stButton>button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
+        }
+        .stTextInput>div>input {
+            border: 2px solid #007BFF;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .stTextInput>div>input:focus {
+            outline: none;
+            border: 2px solid #0056b3;
+        }
+        textarea {
+            border: 2px solid #007BFF;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        textarea:focus {
+            outline: none;
+            border: 2px solid #0056b3;
         }
         </style>
         """,
