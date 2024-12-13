@@ -5,8 +5,8 @@ from email.mime.multipart import MIMEMultipart
 
 # Configuration de l'email
 def envoyer_email(destinataire, sujet, message):
-    expediteur = "romain.margalet@bastide-medical.fr"  # Remplacez par votre adresse email
-    mot_de_passe = "Fabio&Hendrix66"  # Remplacez par votre mot de passe
+    expediteur = "romainmargalet@gmail.com"  # Remplacez par votre adresse email
+    mot_de_passe = "herros66"  # Remplacez par votre mot de passe
 
     try:
         msg = MIMEMultipart()
