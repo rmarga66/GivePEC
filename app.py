@@ -30,7 +30,7 @@ def envoyer_email(destinataire, sujet, message):
 st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layout="centered")
 
 # Ajout du logo
-st.image("logo.png", use_column_width=True)
+st.image("logo.png", use_container_width=True)
 
 st.title("Prise en Charge d'un Patient")
 st.markdown("## Interface de demande de PEC")
