@@ -2,6 +2,7 @@ import streamlit as st
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from urllib.parse import quote
 
 # Configuration de l'email
 def envoyer_email(destinataire, sujet, message):
@@ -48,8 +49,8 @@ if st.button("Envoyer la demande de PEC"):
         st.error("Veuillez remplir tous les champs obligatoires.")
     else:
         sujet = f"DEMANDE de PEC du DR {docteur_nom}"
-        validation_link = f"http://your-server/validate?email={docteur_mail}&response=valid"
-        refusal_link = f"http://your-server/validate?email={docteur_mail}&response=refuse"
+        validation_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été validée.')}"
+        refusal_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été refusée.')}"
         message = f"""
         <h3>Nouvelle demande de PEC</h3>
         <p><strong>Docteur :</strong> {docteur_nom} {docteur_prenom}</p>
