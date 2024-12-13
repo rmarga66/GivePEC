@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 # Configuration de l'email
 def envoyer_email(destinataire, sujet, message):
     expediteur = "romainmargalet@gmail.com"  # Remplacez par votre adresse email
-    mot_de_passe = "oipm xjxx lyab obeq"  # Remplacez par votre mot de passe
+    mot_de_passe = "oipm xjxx obeq"  # Remplacez par votre mot de passe
 
     try:
         msg = MIMEMultipart()
@@ -48,6 +48,8 @@ if st.button("Envoyer la demande de PEC"):
         st.error("Veuillez remplir tous les champs obligatoires.")
     else:
         sujet = f"DEMANDE de PEC du DR {docteur_nom}"
+        validation_link = f"http://your-server/validate?email={docteur_mail}&response=valid"
+        refusal_link = f"http://your-server/validate?email={docteur_mail}&response=refuse"
         message = f"""
         <h3>Nouvelle demande de PEC</h3>
         <p><strong>Docteur :</strong> {docteur_nom} {docteur_prenom}</p>
@@ -59,8 +61,8 @@ if st.button("Envoyer la demande de PEC"):
         <p><strong>Traitement :</strong> {patient_traitement}</p>
         <p><strong>Autres Informations :</strong> {patient_autres}</p>
         <hr>
-        <p><a href='https://validation-lien'>Valider la PEC</a></p>
-        <p><a href='https://refus-lien'>Refuser la PEC</a></p>
+        <p><a href='{validation_link}'>Valider la PEC</a></p>
+        <p><a href='{refusal_link}'>Refuser la PEC</a></p>
         """
         envoyer_email("romain.margalet@bastide-medical.fr", sujet, message)
 
