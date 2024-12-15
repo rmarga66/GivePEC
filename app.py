@@ -121,7 +121,7 @@ def add_custom_css():
             bottom: 10px;
             right: 10px;
             font-style: italic;
-            color: #40E0D0; /* Blanc */
+            color: #40E0D0; /* Bleu turquoise */
         }
         </style>
         """,
