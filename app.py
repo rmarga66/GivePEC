@@ -32,23 +32,23 @@ st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layou
 # Ajout du logo
 st.image("logo.png", use_container_width=True)
 
-st.title("Demande de Prise en Charge ")
-st.markdown("## by RM")
+st.title("Demande de Prise en Charge 🩺 ")
+st.markdown("## fait par RM 💉")
 
 # Formulaire pour les informations du docteur
-docteur_nom = st.text_input("Nom du Docteur")
+docteur_nom = st.text_input("Nom du Docteur 🧑🏻‍⚕️👩🏻‍⚕️")
 docteur_prenom = st.text_input("Prénom du Docteur")
-docteur_telephone = st.text_input("Téléphone du Docteur")
-docteur_mail = st.text_input("Email du Docteur")
+docteur_telephone = st.text_input("Téléphone du Docteur ☎️")
+docteur_mail = st.text_input("Email du Docteur 📧")
 
 # Formulaire pour les informations du patient
-patient_nom = st.text_input("Nom du Patient")
+patient_nom = st.text_input("Nom du Patient 🤒")
 patient_prenom = st.text_input("Prénom du Patient")
-patient_telephone = st.text_input("Téléphone du Patient")
-patient_traitement = st.text_area("Traitement")
-patient_autres = st.text_area("Autre(s) Information(s)")
+patient_telephone = st.text_input("Téléphone du Patient ☎️")
+patient_traitement = st.text_area("Traitement 💊")
+patient_autres = st.text_area("Autre(s) Information(s) 🗒️")
 
-if st.button("Envoyer la demande de PEC"):
+if st.button("Envoyer la prise en charge à l'équipe Bastide-Médical"):
     if not (docteur_nom and docteur_prenom and docteur_telephone and docteur_mail and patient_nom and patient_prenom and patient_telephone):
         st.error("Veuillez remplir tous les champs obligatoires.")
     else:
