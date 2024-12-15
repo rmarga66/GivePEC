@@ -33,7 +33,7 @@ st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layou
 st.image("logo.png", width=130)
 
 st.markdown("<h3 style='text-align: center;'>Demande de Prise en Charge 🩺</h3>", unsafe_allow_html=True)
-st.markdown("<h7 style='text-align: center; color: gray;'>fait par RM 💉</h7>", unsafe_allow_html=True)
+st.markdown("<h6 style='text-align: center; color: gray;'>fait par RM 💉</h6>", unsafe_allow_html=True)
 
 
 # Formulaire pour les informations du docteur
