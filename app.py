@@ -122,3 +122,10 @@ def add_custom_css():
     )
 
 add_custom_css()
+# Ajouter une phrase en bas de la page
+st.markdown("""
+<div class="footer">
+    Vous pouvez aussi joindre Romain MARGALET ☎️ 06.23.03.86.88
+</div>
+""", unsafe_allow_html=True)
+
