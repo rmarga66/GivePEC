@@ -117,11 +117,11 @@ def add_custom_css():
             border: 2px solid #0056b3;
         }
         .footer {
-            position: fixed;
+            position: centered;
             bottom: 10px;
             right: 10px;
             font-style: italic;
-            color: #40E0D0; /* Bleu turquoise */layout="centered"
+            color: #40E0D0; /* Bleu turquoise */
         }
         </style>
         """,
