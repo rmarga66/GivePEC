@@ -33,7 +33,7 @@ st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layou
 st.image("logo.png", width=100)
 
 st.title("Demande de Prise en Charge 🩺 ")
-st.markdown("## fait par RM 💉" width=12)
+st.markdown("## fait par RM 💉")
 
 # Formulaire pour les informations du docteur
 docteur_nom = st.text_input("Nom du Docteur 🧑🏻‍⚕️👩🏻‍⚕️")
