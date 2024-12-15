@@ -25,6 +25,7 @@ def envoyer_email(destinataire, sujet, message):
         st.success("Email envoyé avec succès!")
     except Exception as e:
         st.error(f"Erreur lors de l'envoi de l'email: {e}")
+        st.write("Fait par Romain Margalet avec ❤️")
 
 # Interface principale de l'application
 st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layout="centered")
@@ -32,8 +33,8 @@ st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layou
 # Ajout du logo
 st.image("logo.png", use_container_width=True)
 
-st.title("Prise en Charge d'un Patient")
-st.markdown("## Interface de demande de PEC")
+st.title("Demande de Prise en Charge ")
+st.markdown("## by RM")
 
 # Formulaire pour les informations du docteur
 docteur_nom = st.text_input("Nom du Docteur")
@@ -46,7 +47,7 @@ patient_nom = st.text_input("Nom du Patient")
 patient_prenom = st.text_input("Prénom du Patient")
 patient_telephone = st.text_input("Téléphone du Patient")
 patient_traitement = st.text_area("Traitement")
-patient_autres = st.text_area("Autre(s) Informations")
+patient_autres = st.text_area("Autre(s) Information(s)")
 
 if st.button("Envoyer la demande de PEC"):
     if not (docteur_nom and docteur_prenom and docteur_telephone and docteur_mail and patient_nom and patient_prenom and patient_telephone):
