@@ -25,7 +25,6 @@ def envoyer_email(destinataire, sujet, message):
         st.success("Email envoyé avec succès!")
     except Exception as e:
         st.error(f"Erreur lors de l'envoi de l'email: {e}")
-        st.write("Fait par Romain Margalet avec ❤️")
 
 # Interface principale de l'application
 st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layout="centered")
@@ -54,8 +53,8 @@ if st.button("Envoyer la demande de PEC"):
         st.error("Veuillez remplir tous les champs obligatoires.")
     else:
         sujet = f"DEMANDE de PEC du DR {docteur_nom}"
-        validation_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été validée.')})"
-        refusal_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été refusée.')})"
+        validation_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été validée'})"
+        refusal_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Votre demande de PEC a été refusée'})"
         message = f"""
         <h3>Nouvelle demande de PEC</h3>
         <p><strong>Docteur :</strong> {docteur_nom} {docteur_prenom}</p>
