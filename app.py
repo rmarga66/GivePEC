@@ -116,16 +116,23 @@ def add_custom_css():
             outline: none;
             border: 2px solid #0056b3;
         }
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-style: italic;
+            color: #40E0D0; /* Bleu turquoise */
+        }
         </style>
         """,
         unsafe_allow_html=True,
     )
 
 add_custom_css()
+
 # Ajouter une phrase en bas de la page
 st.markdown("""
 <div class="footer">
     Vous pouvez aussi joindre Romain MARGALET ☎️ 06.23.03.86.88
 </div>
 """, unsafe_allow_html=True)
-
