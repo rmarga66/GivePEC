@@ -22,7 +22,7 @@ def envoyer_email(destinataire, sujet, message):
             server.login(expediteur, mot_de_passe)
             server.send_message(msg)
 
-        st.success("Email envoyé avec succès!")
+        st.success("Email envoyé avec succès !")
     except Exception as e:
         st.error(f"Erreur lors de l'envoi de l'email: {e}")
 
