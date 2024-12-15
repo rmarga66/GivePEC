@@ -127,18 +127,7 @@ def add_custom_css():
         """,
         unsafe_allow_html=True,
     )
-}
-        .footer {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            font-style: italic;
-            color: Rouge/
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+
 add_custom_css()
 
 # Ajouter une phrase en bas de la page
