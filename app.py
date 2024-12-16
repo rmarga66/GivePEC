@@ -47,7 +47,7 @@ patient_nom = st.text_input("Nom du Patient 🤒")
 patient_prenom = st.text_input("Prénom du Patient")
 patient_telephone = st.text_input("Téléphone du Patient ☎️")
 patient_traitement = st.text_area("Traitement 💊")
-patient_autres = st.text_area("Autre(s) (voie d'abord, durée,...) 🗒️")
+patient_autres = st.text_area("Autre(s) (La voie d'abord, la durée,...) 🗒️")
 
 if st.button("Envoyer la prise en charge à l'équipe Bastide-Médical"):
     if not (docteur_nom and docteur_prenom and docteur_telephone and docteur_mail and patient_nom and patient_prenom and patient_telephone):
