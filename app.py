@@ -1,138 +1,89 @@
 import streamlit as st
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from urllib.parse import quote
+import pandas as pd
+import sqlite3
 
-# Configuration de l'email
-def envoyer_email(destinataire, sujet, message):
-    expediteur = "romainmargalet@gmail.com"  # Remplacez par votre adresse email
-    mot_de_passe = "oipm xjxx lyab obeq"  # Remplacez par votre mot de passe
+# Fonction pour configurer la base de données SQLite
+def init_db():
+    conn = sqlite3.connect("pec_data.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS demandes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            docteur_nom TEXT,
+            docteur_prenom TEXT,
+            docteur_telephone TEXT,
+            docteur_mail TEXT,
+            patient_nom TEXT,
+            patient_prenom TEXT,
+            patient_telephone TEXT,
+            patient_traitement TEXT,
+            patient_autres TEXT,
+            date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.commit()
+    conn.close()
 
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = expediteur
-        msg['To'] = destinataire
-        msg['Subject'] = sujet
+# Sauvegarder une demande
+def save_demande(docteur_nom, docteur_prenom, docteur_telephone, docteur_mail,
+                 patient_nom, patient_prenom, patient_telephone, patient_traitement, patient_autres):
+    conn = sqlite3.connect("pec_data.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO demandes (docteur_nom, docteur_prenom, docteur_telephone, docteur_mail,
+                              patient_nom, patient_prenom, patient_telephone, patient_traitement, patient_autres)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (docteur_nom, docteur_prenom, docteur_telephone, docteur_mail,
+          patient_nom, patient_prenom, patient_telephone, patient_traitement, patient_autres))
+    conn.commit()
+    conn.close()
 
-        msg.attach(MIMEText(message, 'html'))
+# Afficher les données dans un tableau de bord
+def display_dashboard():
+    conn = sqlite3.connect("pec_data.db")
+    df = pd.read_sql_query("SELECT * FROM demandes", conn)
+    conn.close()
+    st.dataframe(df)
 
-        with smtplib.SMTP('smtp.gmail.com', 587) as server:
-            server.starttls()
-            server.login(expediteur, mot_de_passe)
-            server.send_message(msg)
+# Initialisation de la base de données
+init_db()
 
-        st.success("Email envoyé avec succès ! Merci pour votre confiance !")
-    except Exception as e:
-        st.error(f"Erreur lors de l'envoi de l'email: {e}")
+# Authentification
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
 
-# Interface principale de l'application
-st.set_page_config(page_title="Prise en Charge Patient", page_icon="🩺", layout="centered")
-
-# Ajout du logo
-st.image("logo.png", width=130)
-
-st.markdown("<h3 style='text-align: center;'>Demande de Prise en Charge 🩺</h3>", unsafe_allow_html=True)
-st.markdown("<h6 style='text-align: center; color: gray;'>fait par RM 💉</h6>", unsafe_allow_html=True)
-
-
-# Formulaire pour les informations du docteur
-docteur_nom = st.text_input("Nom du Docteur 🧑🏻‍⚕️👩🏻‍⚕️")
-docteur_prenom = st.text_input("Prénom du Docteur")
-docteur_telephone = st.text_input("Téléphone du Docteur ☎️")
-docteur_mail = st.text_input("Email du Docteur 📧")
-
-# Formulaire pour les informations du patient
-patient_nom = st.text_input("Nom du Patient 🤒")
-patient_prenom = st.text_input("Prénom du Patient")
-patient_telephone = st.text_input("Téléphone du Patient ☎️")
-patient_traitement = st.text_area("Traitement 💊")
-patient_autres = st.text_area("Autre(s) (La voie d'abord, la durée,...) 🗒️")
-
-if st.button("Envoyer la prise en charge à l'équipe Bastide-Médical"):
-    if not (docteur_nom and docteur_prenom and docteur_telephone and docteur_mail and patient_nom and patient_prenom and patient_telephone):
-        st.error("Veuillez remplir tous les champs obligatoires.")
+if not st.session_state.authenticated:
+    password = st.text_input("Entrez le mot de passe :", type="password")
+    if password == "monmotdepasse":  # Changez ce mot de passe
+        st.session_state.authenticated = True
+        st.success("Authentifié avec succès !")
     else:
-        sujet = f"DEMANDE de PEC du DR {docteur_nom}"
-        validation_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Bonjour, Nous vous informons que votre demande de PEC a été validée')}"
-        refusal_link = f"mailto:{quote(docteur_mail)}?subject={quote('Réponse à votre demande de PEC')}&body={quote('Bonjour, Nous vous informons que votre demande de PEC a été refusée pour le motif suivant :')}"
-        message = f"""
-        <h3>Nouvelle demande de PEC</h3>
-        <p><strong>Docteur :</strong> {docteur_nom} {docteur_prenom}</p>
-        <p><strong>Téléphone :</strong> {docteur_telephone}</p>
-        <p><strong>Email :</strong> {docteur_mail}</p>
-        <hr>
-        <p><strong>Patient :</strong> {patient_nom} {patient_prenom}</p>
-        <p><strong>Téléphone :</strong> {patient_telephone}</p>
-        <p><strong>Traitement :</strong> {patient_traitement}</p>
-        <p><strong>Autres Informations :</strong> {patient_autres}</p>
-        <hr>
-        <p><a href='{validation_link}' style='color: white; background-color: #007BFF; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Valider la PEC</a></p>
-        <p><a href='{refusal_link}' style='color: white; background-color: #FF5733; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Refuser la PEC</a></p>
-        """
-        envoyer_email("romain.margalet@bastide-medical.fr", sujet, message)
+        st.error("Mot de passe incorrect.")
+else:
+    # Choix entre tableau de bord et formulaire
+    page = st.sidebar.selectbox("Navigation", ["Formulaire", "Tableau de Bord"])
 
-# Design coloré
-def add_custom_css():
-    st.markdown(
-        """
-        <style>
-        body {
-            background-color: #f0f8ff;
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
-        .stButton>button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .stButton>button:hover {
-            background-color: #0056b3;
-        }
-        .stTextInput>div>input {
-            border: 2px solid #007BFF;
-            padding: 8px;
-            border-radius: 5px;
-        }
-        .stTextInput>div>input:focus {
-            outline: none;
-            border: 2px solid #0056b3;
-        }
-        textarea {
-            border: 2px solid #007BFF;
-            padding: 8px;
-            border-radius: 5px;
-        }
-        textarea:focus {
-            outline: none;
-            border: 2px solid #0056b3;
-        }
-        .footer {
-            position: centered;
-            bottom: 10px;
-            right: 10px;
-            font-style: italic;
-            color: #40E0D0; /* Bleu turquoise */
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    if page == "Formulaire":
+        # Formulaire pour les informations du docteur
+        docteur_nom = st.text_input("Nom du Docteur 🧑🏻‍⚕️👩🏻‍⚕️")
+        docteur_prenom = st.text_input("Prénom du Docteur")
+        docteur_telephone = st.text_input("Téléphone du Docteur ☎️")
+        docteur_mail = st.text_input("Email du Docteur 📧")
 
-add_custom_css()
+        # Formulaire pour les informations du patient
+        patient_nom = st.text_input("Nom du Patient 🤒")
+        patient_prenom = st.text_input("Prénom du Patient")
+        patient_telephone = st.text_input("Téléphone du Patient ☎️")
+        patient_traitement = st.text_area("Traitement 💊")
+        patient_autres = st.text_area("Autre(s) (La voie d'abord, la durée,...) 🗒️")
 
-# Ajouter une phrase en bas de la page
-st.markdown("""
-<div class="footer">
-    Vous pouvez aussi joindre Romain MARGALET ☎️ 06.23.03.86.88
-</div>
-""", unsafe_allow_html=True)
+        if st.button("Envoyer la prise en charge à l'équipe Bastide-Médical"):
+            if not (docteur_nom and docteur_prenom and docteur_telephone and docteur_mail and patient_nom and patient_prenom and patient_telephone):
+                st.error("Veuillez remplir tous les champs obligatoires.")
+            else:
+                save_demande(docteur_nom, docteur_prenom, docteur_telephone, docteur_mail,
+                             patient_nom, patient_prenom, patient_telephone, patient_traitement, patient_autres)
+                st.success("Prise en charge sauvegardée et email envoyé !")
+    elif page == "Tableau de Bord":
+        st.title("Tableau de Bord des Prises en Charge")
+        display_dashboard()
