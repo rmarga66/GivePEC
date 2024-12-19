@@ -57,9 +57,9 @@ cookie_name = "streamlit_auth_cookie"
 key = "this_is_a_secure_key"
 
 authenticator = stauth.Authenticate(
-    names,
-    usernames,
-    hashed_passwords,
+    names, #Margalet
+    usernames, #Romain
+    hashed_passwords, #RMARGA66
     "dashboard_cookie_name",  # Clé de cookie pour sessions persistantes
     "random_key_for_signature",  # Clé pour signer les cookies (sécurisez-la)
     cookie_expiry_days=1,
