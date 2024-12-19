@@ -54,7 +54,7 @@ hashed_passwords = [
     "RMARGA66", 
 ]  # Remplacez par vos mots de passe hachés
 cookie_name = "streamlit_auth_cookie"
-key = "random_signature_key"
+key = "this_is_a_secure_key"
 
 authenticator = stauth.Authenticate(
     names,
@@ -69,9 +69,11 @@ authenticator = stauth.Authenticate(
 name, authentication_status, username = authenticator.login("Connexion", "main")
 
 if authentication_status:
-    # Authentifié avec succès
-    st.sidebar.title(f"Bienvenue, {name}")
-    option = st.sidebar.radio("Navigation", ["Formulaire", "Tableau de Bord"])
+    st.success(f"Bienvenue, {name}!")
+elif authentication_status is False:
+    st.error("Identifiants incorrects.")
+elif authentication_status is None:
+    st.warning("Veuillez entrer vos identifiants.")
 
     if option == "Formulaire":
         st.title("Demande de Prise en Charge 🩺")
