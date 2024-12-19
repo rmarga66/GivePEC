@@ -48,11 +48,10 @@ def display_dashboard():
 init_db()
 
 # Configuration des utilisateurs
-names = ["Admin", "User1"]
-usernames = ["admin", "user1"]
+names = ["Margalet", "Romain"]
+usernames = ["Margalet", "Romain"]
 hashed_passwords = [
-    "$2b$12$abc123hashedpassword1",
-    "$2b$12$abc123hashedpassword2"
+    "RMARGA66", 
 ]  # Remplacez par vos mots de passe hachés
 
 authenticator = stauth.Authenticate(
